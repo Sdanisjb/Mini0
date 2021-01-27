@@ -17,6 +17,24 @@ class GramaticaListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by GramaticaParser#comando.
+    def enterComando(self, ctx:GramaticaParser.ComandoContext):
+        pass
+
+    # Exit a parse tree produced by GramaticaParser#comando.
+    def exitComando(self, ctx:GramaticaParser.ComandoContext):
+        pass
+
+
+    # Enter a parse tree produced by GramaticaParser#listadecl.
+    def enterListadecl(self, ctx:GramaticaParser.ListadeclContext):
+        pass
+
+    # Exit a parse tree produced by GramaticaParser#listadecl.
+    def exitListadecl(self, ctx:GramaticaParser.ListadeclContext):
+        pass
+
+
     # Enter a parse tree produced by GramaticaParser#decl.
     def enterDecl(self, ctx:GramaticaParser.DeclContext):
         pass
@@ -53,12 +71,30 @@ class GramaticaListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by GramaticaParser#listaBloque.
+    def enterListaBloque(self, ctx:GramaticaParser.ListaBloqueContext):
+        pass
+
+    # Exit a parse tree produced by GramaticaParser#listaBloque.
+    def exitListaBloque(self, ctx:GramaticaParser.ListaBloqueContext):
+        pass
+
+
     # Enter a parse tree produced by GramaticaParser#bloque.
     def enterBloque(self, ctx:GramaticaParser.BloqueContext):
         pass
 
     # Exit a parse tree produced by GramaticaParser#bloque.
     def exitBloque(self, ctx:GramaticaParser.BloqueContext):
+        pass
+
+
+    # Enter a parse tree produced by GramaticaParser#listaComando.
+    def enterListaComando(self, ctx:GramaticaParser.ListaComandoContext):
+        pass
+
+    # Exit a parse tree produced by GramaticaParser#listaComando.
+    def exitListaComando(self, ctx:GramaticaParser.ListaComandoContext):
         pass
 
 
@@ -80,15 +116,6 @@ class GramaticaListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by GramaticaParser#tipo.
-    def enterTipo(self, ctx:GramaticaParser.TipoContext):
-        pass
-
-    # Exit a parse tree produced by GramaticaParser#tipo.
-    def exitTipo(self, ctx:GramaticaParser.TipoContext):
-        pass
-
-
     # Enter a parse tree produced by GramaticaParser#tipobase.
     def enterTipobase(self, ctx:GramaticaParser.TipobaseContext):
         pass
@@ -98,21 +125,30 @@ class GramaticaListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by GramaticaParser#tipo.
+    def enterTipo(self, ctx:GramaticaParser.TipoContext):
+        pass
+
+    # Exit a parse tree produced by GramaticaParser#tipo.
+    def exitTipo(self, ctx:GramaticaParser.TipoContext):
+        pass
+
+
+    # Enter a parse tree produced by GramaticaParser#var.
+    def enterVar(self, ctx:GramaticaParser.VarContext):
+        pass
+
+    # Exit a parse tree produced by GramaticaParser#var.
+    def exitVar(self, ctx:GramaticaParser.VarContext):
+        pass
+
+
     # Enter a parse tree produced by GramaticaParser#declvar.
     def enterDeclvar(self, ctx:GramaticaParser.DeclvarContext):
         pass
 
     # Exit a parse tree produced by GramaticaParser#declvar.
     def exitDeclvar(self, ctx:GramaticaParser.DeclvarContext):
-        pass
-
-
-    # Enter a parse tree produced by GramaticaParser#comando.
-    def enterComando(self, ctx:GramaticaParser.ComandoContext):
-        pass
-
-    # Exit a parse tree produced by GramaticaParser#comando.
-    def exitComando(self, ctx:GramaticaParser.ComandoContext):
         pass
 
 
@@ -167,15 +203,6 @@ class GramaticaListener(ParseTreeListener):
 
     # Exit a parse tree produced by GramaticaParser#cmdreturn.
     def exitCmdreturn(self, ctx:GramaticaParser.CmdreturnContext):
-        pass
-
-
-    # Enter a parse tree produced by GramaticaParser#var.
-    def enterVar(self, ctx:GramaticaParser.VarContext):
-        pass
-
-    # Exit a parse tree produced by GramaticaParser#var.
-    def exitVar(self, ctx:GramaticaParser.VarContext):
         pass
 
 

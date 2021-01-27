@@ -1,67 +1,94 @@
 grammar Gramatica;
-programa  :    NL* decl decl* EOF;
+programa  :    {print("Comenzó un nuevo programa")} NL* listadecl EOF {print("Fin del programa")};
 
-decl  : funcion | glbal;
 
-nl         : NL NL*;
+comando returns [tipoComando]   
+         :  cmdif {$tipoComando="Condicion"}|
+            cmdwhile {$tipoComando="Repeticion"} |
+            cmdasign {$tipoComando="Asignacion"}|
+            cmdreturn {$tipoComando="Retornar"}| 
+            llamada {$tipoComando="Llamada"};
+
+listadecl: {print("Empezó la declaración")}decl listadecl  | decl;
+ 
+decl : funcion | glbal ;
+
+nl         : NL;
 
 glbal     :  declvar nl;
 
-funcion     :  FUN ID LEFTPAREN params RIGHTPAREN (COLON tipo)? nl
 
-               bloque
+
+
+funcion   :  FUN ID LEFTPAREN params RIGHTPAREN (COLON tipo)? nl
+
+               listaBloque
 
             END nl
             ;
 
-bloque      :  (declvar nl)* (comando nl)*;
 
-params     :  /*vacio*/ | parametro ( COMMA parametro );
+
+listaBloque: bloque | bloque listaBloque ;
+bloque : (declvar nl)* listaComando?  nl;
+
+listaComando :cmd=comando {print("Aparecio un comando de tipo",$cmd.tipoComando)} nl  listaComando |
+                                  cmd=comando {print("Aparecio un comando de tipo",$cmd.tipoComando)};  
+                     
+
+
+params     : parametro ( COMMA parametro )* | /*vacio*/;
 
 parametro  : ID COLON tipo;
 
-tipo      : tipobase | LEFTBRACKET RIGHTBRACKET tipo;
+tipobase returns[tipoDato] :  INT {$tipoDato= "INT"} | BOOL {$tipoDato = "BOOL"} | CHAR {$tipoDato = "CHAR"} | STRING {$tipoDato= "STRING"};
 
-tipobase   :  INT | BOOL | CHAR | STRING;
+tipo  returns[tipoDato]    
+            : tipobase {$tipoDato = $tipobase.tipoDato}| LEFTBRACKET RIGHTBRACKET tipo {$tipoDato = "[]" + $tipo.tipoDato};
 
-declvar    :  ID COLON tipo;
+var       : ID | var LEFTBRACKET exp RIGHTBRACKET;
 
-comando    :  cmdif | cmdwhile | cmdasign | cmdreturn | llamada;
+declvar    :  ID COLON tipo
+              {print("  Declaración: ID="+str($ID.text)+" Tipo="+str($tipo.tipoDato))};
 
-cmdif     :  IF exp nl
 
-              bloque
 
-              ( ELSE IF exp nl
+cmdif     :  IF exp nl {print("Inicio condicional if")}
 
-                 bloque
+              listaBloque
 
-              )
+                
+               
+              (ELSE IF exp nl
 
-              ( ELSE nl
+                 listaBloque
 
-                 bloque
+              )*
+
+
+              (ELSE nl
+
+                 listaBloque
 
               )?
 
-             END
+             END {print("Fin condicional if")}
             ;
-cmdwhile   : WHILE exp nl
+cmdwhile   : WHILE exp nl {print("Inicio While")}
 
-               bloque
+               listaBloque
 
-             LOOP
+             LOOP  {print("Fin While")}
              ;
 
 cmdasign   : var EQUAL exp;
 
 llamada   :  ID LEFTPAREN listaexp RIGHTPAREN;
 
-listaexp  : /*vacio*/ | exp ( COMMA exp )* ;
+listaexp  : /*vacio*/ | exp {print("Expresión: ", $exp.text)} ( COMMA exp )* ;
 
 cmdreturn : RETURN exp | RETURN ;
 
-var       : ID | var LEFTBRACKET exp RIGHTBRACKET;
 
 exp       :  LITNUMERAL
 
@@ -108,8 +135,16 @@ exp       :  LITNUMERAL
           | MINUS exp
           ;
 
+
+COMMENT
+    : '/*' .*? '*/' -> skip
+;
+
+LINE_COMMENT
+    : '//' ~[\r\n]* -> skip
+;
+
 NL: ( '\n' )+;
-ID: ([a-zA-Z_]) ([a-zA-Z_]|[0-9])*;
 LITNUMERAL: ( [0-9]+ | '0x'[0-9a-fA-F]+ );
 LITSTRING: '"' ('\\' | '\n' | '\t' | '”' | [a-zA-Z]|[0-9])+  '"';
 TRUE: 'true';
@@ -148,5 +183,7 @@ GREATEREQUAL: '>=';
 LESSEQUAL: '<=';
 EQUAL: '=';
 DIFFERENT: '<>';
+DOT : '.';
+ID: ([a-zA-Z_]) ([a-zA-Z_]|[0-9])*;
 WS : [ \t\r]+ -> skip;
 
